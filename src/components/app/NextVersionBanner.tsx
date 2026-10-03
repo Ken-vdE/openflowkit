@@ -3,6 +3,7 @@ import { Download, RefreshCw, Sparkles, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/ui/ToastContext';
+import { useFlowStore } from '@/store';
 import { NEWER_APP_OPENED_EVENT } from '@/services/storage/indexedDbSchema';
 import { readLocalStorageString, writeLocalStorageString } from '@/services/storage/uiLocalStorage';
 import { buildV1Backup, v1BackupFileName } from '@/services/storage/v1Backup';
@@ -112,6 +113,8 @@ export function NextVersionBanner(): React.ReactElement | null {
     () => readLocalStorageString(NEXT_VERSION_BANNER_DISMISSED_KEY) === 'true'
   );
   const [superseded, setSuperseded] = useState(false);
+  // Nothing to move over → nothing to say; keeps the empty Home's create buttons clear.
+  const hasDiagrams = useFlowStore((state) => state.documents.length > 0);
 
   useEffect(() => {
     const onNewerApp = (): void => setSuperseded(true);
@@ -138,7 +141,7 @@ export function NextVersionBanner(): React.ReactElement | null {
     );
   }
 
-  if (dismissed) {
+  if (dismissed || !hasDiagrams) {
     return null;
   }
 

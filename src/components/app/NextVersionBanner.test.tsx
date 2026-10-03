@@ -4,6 +4,7 @@ import '@/i18n/config';
 import { ToastProvider } from '@/components/ui/ToastContext';
 import { NEWER_APP_OPENED_EVENT } from '@/services/storage/indexedDbSchema';
 import { buildV1Backup } from '@/services/storage/v1Backup';
+import { useFlowStore } from '@/store';
 import { NextVersionBanner } from './NextVersionBanner';
 
 vi.mock('@/services/storage/v1Backup', () => ({
@@ -27,6 +28,24 @@ function renderBanner(): void {
 describe('NextVersionBanner', () => {
   beforeEach(() => {
     localStorage.clear();
+    useFlowStore.setState({
+      documents: [
+        {
+          id: 'doc-1',
+          name: 'Roadmap',
+          createdAt: '2026-10-01T00:00:00.000Z',
+          updatedAt: '2026-10-01T00:00:00.000Z',
+          activePageId: '',
+          pages: [],
+        },
+      ],
+    });
+  });
+
+  it('stays out of the way when there is nothing to move over', () => {
+    useFlowStore.setState({ documents: [] });
+    renderBanner();
+    expect(screen.queryByTestId('next-version-banner')).toBeNull();
   });
 
   it('stays dismissed across reloads, by ✕ or by "Got it"', () => {
