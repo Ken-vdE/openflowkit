@@ -1484,5 +1484,15 @@
     "visualAlt": "Your AI client connects to the OpenFlowKit MCP server over stdio, which provides local diagramming tools.",
     "visualClient": "Your AI client",
     "visualCaption": "Local · stdio · no API key"
+  },
+  "backup": {
+    "exportAll": "Export all my diagrams",
+    "exportAllProcessing": "Exporting all diagrams…",
+    "exportAllDone": "Diagrams exported: {{count}}.",
+    "exportAllFailed": "Could not export your diagrams.",
+    "nextVersionBanner": "A new OpenFlowKit is coming. Your diagrams move over automatically.",
+    "exportAllEmpty": "There are no diagrams to export yet.",
+    "superseded": "OpenFlowKit was updated in another tab. Reload to keep working — changes made here will not carry over.",
+    "reload": "Reload"
   }
 }

@@ -1,5 +1,7 @@
 export const FLOW_PERSISTENCE_DB_NAME = 'openflowkit-persistence';
 export const FLOW_PERSISTENCE_DB_VERSION = 3;
+/** Fired on `globalThis` when a newer OpenFlowKit upgrades the database under this tab. */
+export const NEWER_APP_OPENED_EVENT = 'openflowkit:newer-app-opened';
 export const FLOW_DOCUMENT_STORE_NAME = 'flowDocuments';
 export const FLOW_METADATA_STORE_NAME = 'flowMetadata';
 export const SCHEMA_META_STORE_NAME = 'schemaMeta';
@@ -83,9 +85,40 @@ function ensureObjectStoreIndex(
   }
 }
 
+// True once this page opened the database at our own version.
+let openedAtOurVersion = false;
+
 export function openFlowPersistenceDatabase(indexedDbFactory: IDBFactory): Promise<IDBDatabase> {
+  return openDatabase(indexedDbFactory, FLOW_PERSISTENCE_DB_VERSION).then(
+    (database) => {
+      openedAtOurVersion = true;
+      return database;
+    },
+    (error: unknown) => {
+      // The next OpenFlowKit upgrades this database past our version and keeps every store we
+      // use. Open whatever version is there, so this app still sees its diagrams in a browser
+      // that has run the new one (a rollback loads straight into this path, silently).
+      if (error instanceof DOMException && error.name === 'VersionError') {
+        if (openedAtOurVersion) announceNewerApp();
+        return openDatabase(indexedDbFactory);
+      }
+      throw error;
+    }
+  );
+}
+
+// The database moved on under this tab: edits made here after a newer app imported its copy
+// would not carry over.
+function announceNewerApp(): void {
+  globalThis.dispatchEvent?.(new Event(NEWER_APP_OPENED_EVENT));
+}
+
+function openDatabase(indexedDbFactory: IDBFactory, version?: number): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
-    const request = indexedDbFactory.open(FLOW_PERSISTENCE_DB_NAME, FLOW_PERSISTENCE_DB_VERSION);
+    const request =
+      version === undefined
+        ? indexedDbFactory.open(FLOW_PERSISTENCE_DB_NAME)
+        : indexedDbFactory.open(FLOW_PERSISTENCE_DB_NAME, version);
 
     request.onerror = () => {
       reject(request.error ?? new Error('Failed to open IndexedDB persistence database.'));
@@ -103,7 +136,15 @@ export function openFlowPersistenceDatabase(indexedDbFactory: IDBFactory): Promi
     };
 
     request.onsuccess = () => {
-      resolve(request.result);
+      const database = request.result;
+      database.onversionchange = (event) => {
+        // Never block a newer app's upgrade from an open tab.
+        database.close();
+        if (event.newVersion !== null && event.newVersion > FLOW_PERSISTENCE_DB_VERSION) {
+          announceNewerApp();
+        }
+      };
+      resolve(database);
     };
   });
 }

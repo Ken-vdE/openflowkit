@@ -14,6 +14,7 @@ import { ensureLocalFirstPersistenceReady } from './services/storage/localFirstR
 import { installStorageTelemetrySink } from './services/storage/storageTelemetrySink';
 import { reportStorageTelemetry } from './services/storage/storageTelemetry';
 import { registerAppShellServiceWorker } from './services/offline/registerAppShellServiceWorker';
+import { NextVersionBanner } from './components/app/NextVersionBanner';
 import './index.css';
 
 initializeAnalytics();
@@ -76,6 +77,7 @@ root.render(
       <ThemeProvider>
         <ToastProvider>
           <BootstrapApp />
+          <NextVersionBanner />
         </ToastProvider>
       </ThemeProvider>
     </ErrorBoundary>
