@@ -1489,5 +1489,19 @@
     "visualAlt": "Your AI client connects to the OpenFlowKit MCP server over stdio, which provides local diagramming tools.",
     "visualClient": "Your AI client",
     "visualCaption": "Local · stdio · no API key"
+  },
+  "backup": {
+    "exportAll": "Tüm diyagramlarımı dışa aktar",
+    "exportAllProcessing": "Tüm diyagramlar dışa aktarılıyor…",
+    "exportAllDone": "Dışa aktarılan diyagram: {{count}}.",
+    "exportAllFailed": "Diyagramların dışa aktarılamadı.",
+    "exportAllEmpty": "Henüz dışa aktarılacak diyagram yok.",
+    "reload": "Yeniden yükle",
+    "nextVersionTitle": "Yeni bir OpenFlowKit yolda",
+    "nextVersionBody": "Diyagramların otomatik olarak taşınacak — bir şey yapmana gerek yok. Yine de bir kopya ister misin?",
+    "downloadBackup": "Yedeği indir",
+    "gotIt": "Anladım",
+    "supersededTitle": "OpenFlowKit güncellendi",
+    "supersededBody": "Bu sekme güncel değil. Çalışmaya devam etmek için yeniden yükle — burada yapılan değişiklikler taşınmayacak."
   }
 }

@@ -4,6 +4,7 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.clear();
     localStorage.setItem('hasSeenWelcome_v1', 'true');
+    localStorage.setItem('openflowkit-next-version-banner-dismissed', 'true');
   });
 });
 
