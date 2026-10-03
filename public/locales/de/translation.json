@@ -1495,9 +1495,13 @@
     "exportAllProcessing": "Alle Diagramme werden exportiert…",
     "exportAllDone": "Exportierte Diagramme: {{count}}.",
     "exportAllFailed": "Deine Diagramme konnten nicht exportiert werden.",
-    "nextVersionBanner": "Ein neues OpenFlowKit kommt. Deine Diagramme werden automatisch übernommen.",
     "exportAllEmpty": "Es gibt noch keine Diagramme zum Exportieren.",
-    "superseded": "OpenFlowKit wurde in einem anderen Tab aktualisiert. Lade neu, um weiterzuarbeiten – Änderungen hier werden nicht übernommen.",
-    "reload": "Neu laden"
+    "reload": "Neu laden",
+    "nextVersionTitle": "Ein neues OpenFlowKit ist unterwegs",
+    "nextVersionBody": "Deine Diagramme werden automatisch übernommen – du musst nichts tun. Trotzdem eine Kopie?",
+    "downloadBackup": "Backup herunterladen",
+    "gotIt": "Verstanden",
+    "supersededTitle": "OpenFlowKit wurde aktualisiert",
+    "supersededBody": "Dieser Tab ist veraltet. Lade neu, um weiterzuarbeiten – Änderungen hier werden nicht übernommen."
   }
 }

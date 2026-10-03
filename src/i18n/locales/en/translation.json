@@ -1490,9 +1490,13 @@
     "exportAllProcessing": "Exporting all diagrams…",
     "exportAllDone": "Diagrams exported: {{count}}.",
     "exportAllFailed": "Could not export your diagrams.",
-    "nextVersionBanner": "A new OpenFlowKit is coming. Your diagrams move over automatically.",
     "exportAllEmpty": "There are no diagrams to export yet.",
-    "superseded": "OpenFlowKit was updated in another tab. Reload to keep working — changes made here will not carry over.",
-    "reload": "Reload"
+    "reload": "Reload",
+    "nextVersionTitle": "A new OpenFlowKit is on the way",
+    "nextVersionBody": "Your diagrams will move over automatically — nothing to do. Want a copy anyway?",
+    "downloadBackup": "Download a backup",
+    "gotIt": "Got it",
+    "supersededTitle": "OpenFlowKit has been updated",
+    "supersededBody": "This tab is out of date. Reload to keep working — changes made here won’t carry over."
   }
 }

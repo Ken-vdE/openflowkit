@@ -1,14 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Download, X } from 'lucide-react';
+import { Download, RefreshCw, Sparkles, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/ui/ToastContext';
 import { NEWER_APP_OPENED_EVENT } from '@/services/storage/indexedDbSchema';
 import { readLocalStorageString, writeLocalStorageString } from '@/services/storage/uiLocalStorage';
 import { buildV1Backup, v1BackupFileName } from '@/services/storage/v1Backup';
-
-// Above the editor's bottom toolbar.
-const BANNER_CLASS =
-  'fixed bottom-24 left-1/2 z-[60] flex w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 items-center gap-3 rounded-xl border border-[var(--color-brand-border)] bg-[var(--brand-surface)] px-4 py-2.5 text-[13px] text-[var(--brand-text)] shadow-lg';
 
 export const NEXT_VERSION_BANNER_DISMISSED_KEY = 'openflowkit-next-version-banner-dismissed';
 
@@ -51,6 +48,63 @@ export function useExportAllDiagrams(): () => Promise<void> {
   }, [addToast, t]);
 }
 
+interface NoticeCardProps {
+  testId: string;
+  role: 'status' | 'alert';
+  icon: React.ReactNode;
+  title: string;
+  body: string;
+  children: React.ReactNode;
+  onClose?: () => void;
+  closeLabel?: string;
+}
+
+// Centred just above the editor's toolbar: the zoom controls sit bottom-left and the
+// properties panel opens on the right.
+function NoticeCard({
+  testId,
+  role,
+  icon,
+  title,
+  body,
+  children,
+  onClose,
+  closeLabel,
+}: NoticeCardProps): React.ReactElement {
+  return (
+    <div className="pointer-events-none fixed inset-x-0 bottom-24 z-[60] flex justify-center px-4">
+      <div
+        role={role}
+        data-testid={testId}
+        className="pointer-events-auto w-full max-w-[400px] rounded-2xl border border-[var(--color-brand-border)] bg-[var(--brand-surface)] p-4 text-[var(--brand-text)] shadow-[0_12px_40px_rgba(0,0,0,0.12)] animate-in fade-in slide-in-from-bottom-2 duration-300"
+      >
+        <div className="flex gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)]">
+            {icon}
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-[14px] font-semibold leading-5 tracking-tight">{title}</p>
+            <p className="mt-1 text-[12.5px] leading-[18px] text-[var(--brand-secondary)]">
+              {body}
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">{children}</div>
+          </div>
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={closeLabel}
+              className="-mr-1 -mt-1 h-7 w-7 shrink-0 rounded-lg text-[var(--brand-secondary)] transition-colors hover:bg-[var(--brand-background)] hover:text-[var(--brand-text)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-primary)]"
+            >
+              <X className="mx-auto h-4 w-4" />
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function NextVersionBanner(): React.ReactElement | null {
   const { t } = useTranslation();
   const exportAll = useExportAllDiagrams();
@@ -67,21 +121,20 @@ export function NextVersionBanner(): React.ReactElement | null {
 
   if (superseded) {
     return (
-      <div role="alert" data-testid="newer-app-banner" className={BANNER_CLASS}>
-        <span className="flex-1">
-          {t(
-            'backup.superseded',
-            'OpenFlowKit was updated in another tab. Reload to keep working — changes made here will not carry over.'
-          )}
-        </span>
-        <button
-          type="button"
-          onClick={() => window.location.reload()}
-          className="shrink-0 font-medium text-[var(--brand-primary)] hover:underline focus:outline-none focus-visible:underline"
-        >
+      <NoticeCard
+        testId="newer-app-banner"
+        role="alert"
+        icon={<RefreshCw className="h-[18px] w-[18px]" />}
+        title={t('backup.supersededTitle', 'OpenFlowKit has been updated')}
+        body={t(
+          'backup.supersededBody',
+          'This tab is out of date. Reload to keep working — changes made here won’t carry over.'
+        )}
+      >
+        <Button size="sm" onClick={() => window.location.reload()}>
           {t('backup.reload', 'Reload')}
-        </button>
-      </div>
+        </Button>
+      </NoticeCard>
     );
   }
 
@@ -95,33 +148,25 @@ export function NextVersionBanner(): React.ReactElement | null {
   }
 
   return (
-    <div
+    <NoticeCard
+      testId="next-version-banner"
       role="status"
-      data-testid="next-version-banner"
-      className={BANNER_CLASS}
+      icon={<Sparkles className="h-[18px] w-[18px]" />}
+      title={t('backup.nextVersionTitle', 'A new OpenFlowKit is on the way')}
+      body={t(
+        'backup.nextVersionBody',
+        'Your diagrams will move over automatically — nothing to do. Want a copy anyway?'
+      )}
+      onClose={dismiss}
+      closeLabel={t('common.close', 'Close')}
     >
-      <span className="flex-1">
-        {t(
-          'backup.nextVersionBanner',
-          'A new OpenFlowKit is coming. Your diagrams move over automatically.'
-        )}
-      </span>
-      <button
-        type="button"
-        onClick={() => void exportAll()}
-        className="flex shrink-0 items-center gap-1.5 font-medium text-[var(--brand-primary)] hover:underline focus:outline-none focus-visible:underline"
-      >
+      <Button size="sm" variant="secondary" onClick={() => void exportAll()}>
         <Download className="h-3.5 w-3.5" />
-        {t('backup.exportAll', 'Export all my diagrams')}
-      </button>
-      <button
-        type="button"
-        onClick={dismiss}
-        aria-label={t('common.close', 'Close')}
-        className="shrink-0 rounded-md p-1 text-[var(--brand-secondary)] hover:text-[var(--brand-text)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-primary)]"
-      >
-        <X className="h-3.5 w-3.5" />
-      </button>
-    </div>
+        {t('backup.downloadBackup', 'Download a backup')}
+      </Button>
+      <Button size="sm" variant="ghost" onClick={dismiss}>
+        {t('backup.gotIt', 'Got it')}
+      </Button>
+    </NoticeCard>
   );
 }

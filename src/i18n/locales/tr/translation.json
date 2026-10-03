@@ -1495,9 +1495,13 @@
     "exportAllProcessing": "Tüm diyagramlar dışa aktarılıyor…",
     "exportAllDone": "Dışa aktarılan diyagram: {{count}}.",
     "exportAllFailed": "Diyagramların dışa aktarılamadı.",
-    "nextVersionBanner": "Yeni bir OpenFlowKit geliyor. Diyagramların otomatik olarak taşınacak.",
     "exportAllEmpty": "Henüz dışa aktarılacak diyagram yok.",
-    "superseded": "OpenFlowKit başka bir sekmede güncellendi. Çalışmaya devam etmek için yeniden yükle — burada yapılan değişiklikler taşınmayacak.",
-    "reload": "Yeniden yükle"
+    "reload": "Yeniden yükle",
+    "nextVersionTitle": "Yeni bir OpenFlowKit yolda",
+    "nextVersionBody": "Diyagramların otomatik olarak taşınacak — bir şey yapmana gerek yok. Yine de bir kopya ister misin?",
+    "downloadBackup": "Yedeği indir",
+    "gotIt": "Anladım",
+    "supersededTitle": "OpenFlowKit güncellendi",
+    "supersededBody": "Bu sekme güncel değil. Çalışmaya devam etmek için yeniden yükle — burada yapılan değişiklikler taşınmayacak."
   }
 }

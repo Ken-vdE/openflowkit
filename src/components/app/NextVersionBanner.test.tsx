@@ -29,7 +29,12 @@ describe('NextVersionBanner', () => {
     localStorage.clear();
   });
 
-  it('stays dismissed across reloads', () => {
+  it('stays dismissed across reloads, by ✕ or by "Got it"', () => {
+    renderBanner();
+    fireEvent.click(screen.getByRole('button', { name: 'Got it' }));
+    expect(screen.queryByTestId('next-version-banner')).toBeNull();
+    localStorage.clear();
+
     renderBanner();
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
     expect(screen.queryByTestId('next-version-banner')).toBeNull();
@@ -50,7 +55,7 @@ describe('NextVersionBanner', () => {
     renderBanner();
 
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'Export all my diagrams' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Download a backup' }));
     });
 
     expect(downloads).toEqual(['openflowkit-backup-2026-10-03.json']);
@@ -68,7 +73,7 @@ describe('NextVersionBanner', () => {
     renderBanner();
 
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'Export all my diagrams' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Download a backup' }));
     });
 
     expect(await screen.findByText('There are no diagrams to export yet.')).toBeTruthy();
