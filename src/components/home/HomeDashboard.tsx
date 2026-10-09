@@ -9,12 +9,14 @@ import {
   LayoutTemplate,
   FileInput,
   ShieldCheck,
+  Download,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/Button';
 import { Tooltip } from '../Tooltip';
 import type { WorkspaceDocumentPreview } from '@/store/workspaceDocumentModel';
 import { recordOnboardingEvent } from '@/services/onboarding/events';
+import { useExportAllDiagrams } from '@/components/app/NextVersionBanner';
 
 const AUTOSAVED_LABEL = 'Autosaved';
 
@@ -53,6 +55,7 @@ export function HomeDashboard({
 }: HomeDashboardProps): React.ReactElement {
   const { t } = useTranslation();
   const hasFlows = flows.length > 0;
+  const exportAll = useExportAllDiagrams();
   const secondaryActionIconClass =
     'h-4 w-4 text-[var(--brand-secondary)] transition-transform duration-300 group-hover:scale-110';
 
@@ -87,15 +90,28 @@ export function HomeDashboard({
             {t('home.description', 'Manage your flows and diagrams.')}
           </p>
         </div>
-        <Button
-          onClick={handleCreateNew}
-          data-testid="home-create-new-header"
-          variant="primary"
-          size="sm"
-        >
-          <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
-          {t('home.createNew', 'Create new')}
-        </Button>
+        <div className="flex items-center gap-2">
+          {hasFlows && (
+            <Button
+              onClick={() => void exportAll()}
+              data-testid="home-export-all"
+              variant="secondary"
+              size="sm"
+            >
+              <Download className="w-3.5 h-3.5" />
+              {t('backup.exportAll', 'Export all my diagrams')}
+            </Button>
+          )}
+          <Button
+            onClick={handleCreateNew}
+            data-testid="home-create-new-header"
+            variant="primary"
+            size="sm"
+          >
+            <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+            {t('home.createNew', 'Create new')}
+          </Button>
+        </div>
       </div>
 
       <section>

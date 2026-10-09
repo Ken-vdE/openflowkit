@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { HomePage } from './HomePage';
+import { ToastProvider } from './ui/ToastContext';
 import { useFlowStore } from '@/store';
 import type { FlowTab } from '@/lib/types';
 import type { FlowDocument } from '@/services/storage/flowDocumentModel';
@@ -48,17 +49,19 @@ describe('HomePage integration flows', () => {
     async function renderHomePage(props?: Partial<React.ComponentProps<typeof HomePage>>): Promise<void> {
         await act(async () => {
             render(
-                <MemoryRouter>
-                    <HomePage
-                        onLaunch={vi.fn()}
-                        onLaunchWithTemplates={vi.fn()}
-                        onLaunchWithTemplate={vi.fn()}
-                        onLaunchWithAI={vi.fn()}
-                        onImportJSON={vi.fn()}
-                        onOpenFlow={vi.fn()}
-                        {...props}
-                    />
-                </MemoryRouter>
+                <ToastProvider>
+                    <MemoryRouter>
+                        <HomePage
+                            onLaunch={vi.fn()}
+                            onLaunchWithTemplates={vi.fn()}
+                            onLaunchWithTemplate={vi.fn()}
+                            onLaunchWithAI={vi.fn()}
+                            onImportJSON={vi.fn()}
+                            onOpenFlow={vi.fn()}
+                            {...props}
+                        />
+                    </MemoryRouter>
+                </ToastProvider>
             );
         });
     }

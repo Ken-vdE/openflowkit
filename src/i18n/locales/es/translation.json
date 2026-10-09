@@ -1040,28 +1040,27 @@
           }
         },
         "groq": {
-          "meta-llama/llama-4-scout-17b-16e-instruct": {
-            "label": "Llama 4 Scout",
-            "hint": "Free tier · Very fast",
-            "category": "Speed",
-            "badge": "Free"
+          "openai/gpt-oss-120b": {
+            "label": "GPT-OSS 120B",
+            "hint": "Más capaz · Nivel gratuito",
+            "category": "Razonamiento",
+            "badge": "Gratis"
           },
-          "meta-llama/llama-4-maverick-17b-128e-instruct": {
-            "label": "Llama 4 Maverick",
-            "hint": "More capable · Free tier",
-            "category": "Speed",
-            "badge": "Free"
+          "openai/gpt-oss-20b": {
+            "label": "GPT-OSS 20B",
+            "hint": "Más rápido · Nivel gratuito",
+            "category": "Velocidad",
+            "badge": "Gratis"
           },
-          "qwen/qwen3-32b": {
-            "label": "Qwen 3 32B",
-            "hint": "Advanced reasoning · Tool use",
-            "category": "Reasoning"
+          "qwen/qwen3.8-27b": {
+            "label": "Qwen3.8 27B",
+            "hint": "Razonamiento avanzado · Uso de herramientas",
+            "category": "Razonamiento"
           },
-          "llama-3.3-70b-versatile": {
-            "label": "Llama 3.3 70B Versatile",
-            "hint": "Versatile model",
-            "category": "Performance",
-            "badge": "Performance"
+          "groq/compound": {
+            "label": "Compound",
+            "hint": "Sistema agéntico de Groq · Herramientas integradas",
+            "category": "Rendimiento"
           }
         },
         "nvidia": {
@@ -1505,5 +1504,19 @@
     "visualAlt": "Your AI client connects to the OpenFlowKit MCP server over stdio, which provides local diagramming tools.",
     "visualClient": "Your AI client",
     "visualCaption": "Local · stdio · no API key"
+  },
+  "backup": {
+    "exportAll": "Exportar todos mis diagramas",
+    "exportAllProcessing": "Exportando todos los diagramas…",
+    "exportAllDone": "Diagramas exportados: {{count}}.",
+    "exportAllFailed": "No se pudieron exportar tus diagramas.",
+    "exportAllEmpty": "Todavía no hay diagramas para exportar.",
+    "reload": "Recargar",
+    "nextVersionTitle": "Llega un nuevo OpenFlowKit",
+    "nextVersionBody": "Tus diagramas se trasladarán automáticamente; no tienes que hacer nada. ¿Quieres una copia de todos modos?",
+    "downloadBackup": "Descargar una copia",
+    "gotIt": "Entendido",
+    "supersededTitle": "OpenFlowKit se ha actualizado",
+    "supersededBody": "Esta pestaña está desactualizada. Recarga para seguir trabajando: los cambios hechos aquí no se trasladarán."
   }
 }

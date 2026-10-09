@@ -196,7 +196,7 @@ Flowpilot sits directly in the editor. Describe a system, paste source code, upl
 | Google Gemini       | `gemini-3.5-flash-lite`                    | Free tier available, fast, browser-safe         |
 | OpenAI              | `gpt-5-mini`                               | Best reasoning for complex architectures        |
 | Anthropic Claude    | `claude-sonnet-4-6`                        | Excellent code and system understanding         |
-| Groq                | `meta-llama/llama-4-scout-17b-16e-instruct`| Fastest open-source inference available         |
+| Groq                | `openai/gpt-oss-120b`                      | Fastest open-source inference available         |
 | Mistral             | `mistral-large-latest`                     | Strong European privacy-first alternative       |
 | NVIDIA NIM          | `meta/llama-4-maverick-17b-128e-instruct`  | Enterprise GPU inference                        |
 | Cerebras            | `gpt-oss-120b`                             | Ultra-fast on WSE-3 silicon                     |
@@ -424,7 +424,7 @@ Start here:
 ```bash
 npm run dev        # development server at localhost:5173
 npm run test       # unit tests via Vitest
-npm run test:e2e   # end-to-end tests via Playwright
+npm run e2e        # end-to-end tests via Playwright
 npm run lint       # ESLint + TypeScript type-check
 ```
 
